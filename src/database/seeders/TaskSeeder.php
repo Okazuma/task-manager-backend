@@ -22,12 +22,14 @@ class TaskSeeder extends Seeder
             'user_id' => $user->id,
             'name' => 'サンプル１',
             'detail' => '1つ目のサンプルタスクです.',
+            'deadline' => now()->addDays(3)->format('Y-m-d'),
             'status' => 'pending'
         ]);
         Task::create([
             'user_id' => $user->id,
             'name' => 'サンプル２',
             'detail' => '２つ目のサンプルタスクです.',
+            'deadline' => null,
             'status' => 'completed'
         ]);
     }

@@ -18,7 +18,8 @@ class CreateTasksTable extends Migration
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->string('name');
             $table->text('detail');
-            $table->enum('status', ['pending', 'completed'])->default('pending'); 
+            $table->date('deadline')->nullable();
+            $table->enum('status', ['pending', 'completed'])->default('pending');
             $table->timestamps();
         });
     }
