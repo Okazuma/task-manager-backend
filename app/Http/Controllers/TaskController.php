@@ -19,7 +19,7 @@ class TaskController extends Controller
         $task = Task::create([
             'name' => $request->name,
             'detail' => $request->detail,
-            'status' => $request->status,
+            'deadline' => $request->deadline,
             'user_id' => $request->user_id,
         ]);
         return response()->json($task,201);
