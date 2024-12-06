@@ -10,12 +10,14 @@ class AuthController extends Controller
 {
     public function login(Request $request)
     {
-        $credential = $request->only('name','email','password');
+        $credentials = $request->only('email','password');
 
-        if(!Auth::attempt($credential)){
+        if(!Auth::attempt($credentials)){
             return response()->json(['message'=>'Invalid login details'],401);
         }
-        $request->session()->regenerate();
+
+        $user = Auth::user();
+        $token = $user->createToken('TaskManager')->plainTextToken;
 
             return response()->json(['message' => 'Login successful']);
     }
