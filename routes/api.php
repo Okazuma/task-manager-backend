@@ -37,3 +37,8 @@ Route::delete('/tasks/{id}',[TaskController::class,'destroy']);
 // ユーザー情報管理のルート
 Route::middleware('auth:sanctum')->get('/user',[UserController::class,'fetchUser']);
 Route::middleware('auth:sanctum')->put('/user',[UserController::class,'updateUser']);
+
+
+Route::middleware('web')->get('/sanctum/csrf-cookie', function () {
+    return response()->json(['message' => 'CSRF cookie set']);
+});

@@ -15,8 +15,7 @@ class TaskSeeder extends Seeder
      */
     public function run()
     {
-
-        $user = User::first(); 
+        $user = User::first();
 
         Task::create([
             'user_id' => $user->id,

@@ -9,16 +9,15 @@ use App\Models\User;
 
 class UserController extends Controller
 {
-
-    // 現在認証されているユーザーの情報を取得
     public function fetchUser(Request $request)
     {
-        $user = Auth::user();  // 現在認証されたユーザーを取得
+        $user = Auth::user();
 
-        return response()->json($user);  // ユーザー情報をJSONで返す
+        return response()->json($user);
     }
 
-    // ユーザー情報の更新
+
+
     public function updateUser(Request $request)
     {
         $user = Auth::user();
@@ -26,7 +25,6 @@ class UserController extends Controller
         $user->name = $request->name;
         $user->email = $request->email;
 
-        // パスワードが入力されていればハッシュ化して更新
         if ($request->filled('password')) {
             $user->password = Hash::make($request->password);
         }
