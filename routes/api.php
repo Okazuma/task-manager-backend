@@ -27,18 +27,15 @@ Route::post('/register',[RegisterController::class,'register']);
 Route::post('/login',[AuthController::class,'login']);
 Route::post('/logout',[AuthController::class,'logout']);
 
+// ユーザー管理のルート
+Route::middleware('auth:sanctum')->get('/user',[UserController::class,'getUser']);
+Route::middleware('auth:sanctum')->put('/user/{userId}',[UserController::class,'updateUser']);
+Route::middleware('auth:sanctum')->delete('/user/{userId}',[UserController::class,'destroyUser']);
+
+
 // タスク管理のルート
 Route::middleware('auth:sanctum')->get('/tasks', [TaskController::class, 'index']);
 Route::middleware('auth:sanctum')->post('/tasks', [TaskController::class, 'store']);
+Route::put('/tasks/{taskId}',[TaskController::class,'update']);
+Route::delete('/tasks/{taskId}',[TaskController::class,'destroy']);
 
-Route::put('/tasks/{id}',[TaskController::class,'update']);
-Route::delete('/tasks/{id}',[TaskController::class,'destroy']);
-
-// ユーザー情報管理のルート
-Route::middleware('auth:sanctum')->get('/user',[UserController::class,'fetchUser']);
-Route::middleware('auth:sanctum')->put('/user',[UserController::class,'updateUser']);
-
-
-Route::middleware('web')->get('/sanctum/csrf-cookie', function () {
-    return response()->json(['message' => 'CSRF cookie set']);
-});

@@ -6,10 +6,11 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use App\Http\Requests\ProfileRequest;
 
 class UserController extends Controller
 {
-    public function fetchUser(Request $request)
+    public function getUser(Request $request)
     {
         $user = Auth::user();
 
@@ -18,22 +19,38 @@ class UserController extends Controller
 
 
 
-    public function updateUser(Request $request)
+    public function updateUser(ProfileRequest $request)
     {
         $user = Auth::user();
 
-        $user->name = $request->name;
-        $user->email = $request->email;
+        $validated = $request->validated();
+        $user->name = $validated['name'];
+        $user->email = $validated['email'];
 
-        if ($request->filled('password')) {
-            $user->password = Hash::make($request->password);
+        if (!empty($validated['password'])) {
+            $user->password = Hash::make($validated['password']);
         }
 
         $user->save();
 
         return response()->json([
             'message' => 'User updated successfully',
-            'user' => $user
+            'name' => $user->name,
+            'email' => $user->email,
         ]);
+    }
+
+
+
+    public function destroyUser(Request $request)
+    {
+        $user = Auth::user();
+
+        $user->delete();
+
+
+        return response()->json([
+            'message' => 'User destroy successfully'
+        ],200);
     }
 }

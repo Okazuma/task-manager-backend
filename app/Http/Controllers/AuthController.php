@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 use App\Http\Requests\LoginRequest;
 use Laravel\Sanctum\HasApiTokens;
 
@@ -22,21 +23,26 @@ class AuthController extends Controller
         $token = $user->createToken('authToken')->plainTextToken;
 
         return response()->json([
-            'user' => [
                 'id' => $user->id,
                 'name' => $user->name,
                 'email' => $user->email,
-            ]
         ])->withCookie(cookie('token',$token,60,null,null,true,true));
     }
 
+
+
     public function logout()
     {
-        Auth::guard('web')->logout();
+        $user = Auth::user();
 
-        session()->invalidate();
-        session()->regenerateToken();
+        if($user){
+            $user->tokens()->delete();
+        }
 
-        return response()->json(['message' => 'Logout successful']);
+        Auth::logout();
+        Session::flush();
+        Session::regenerateToken();
+
+        return response()->json(['message' => 'Logged out'])->withCookie(cookie()->forget('token'))->withCookie(cookie()->forget('XSRF-TOKEN'));
     }
 }
