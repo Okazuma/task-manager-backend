@@ -12,7 +12,6 @@ class TaskController extends Controller
     public function index(Request $request)
     {
         $user = Auth::user();
-
         if(!$user){
             return response()->json(['message' => '認証が必要です'],401);
         }
@@ -52,19 +51,34 @@ class TaskController extends Controller
 
 
 
-    public function update(Request $request,$id)
+    public function update(TaskRequest $request,$taskId)
     {
-        $task = Task::findOrFail($id);
-        $task->update($request->all());
-        return response()->json($task);
+        $user = Auth::user();
+        $validated = $request->validated();
+
+        $task = Task::findOrFail($taskId);
+        $task->update($validated);
+
+        return response()->json([
+            "task" => [
+                "id" => $task->id,
+                "name" => $task->name,
+                "detail" => $task->detail,
+                "deadline" => $task->deadline,
+                "user_id" => $user->id,
+            ]
+        ],200);
     }
 
 
 
-    public function destroy($id)
+    public function destroy(Request $request,$taskId)
     {
-        $task = Task::findOrFail($id);
+        $task = Task::findOrFail($taskId);
         $task->delete();
-        return response()->json(null,204);
+
+        return response()->json([
+            'message' => 'User destroy successfully'
+        ],200);
     }
 }
