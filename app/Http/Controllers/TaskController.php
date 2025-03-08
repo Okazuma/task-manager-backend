@@ -45,7 +45,7 @@ class TaskController extends Controller
                 'name' => $task->name,
                 'detail' => $task->detail,
                 'deadline' => $task->deadline,
-                'user_id' => $task->userId,
+                'user_id' => $task->user_id,
             ],
         ],201);
     }

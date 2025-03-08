@@ -29,8 +29,8 @@ Route::post('/logout',[AuthController::class,'logout']);
 
 // ユーザー管理のルート
 Route::middleware('auth:sanctum')->get('/user',[UserController::class,'getUser']);
-Route::middleware('auth:sanctum')->put('/user/{userId}',[UserController::class,'updateUser']);
-Route::middleware('auth:sanctum')->delete('/user/{userId}',[UserController::class,'destroyUser']);
+Route::middleware('auth:sanctum')->put('/user',[UserController::class,'updateUser']);
+Route::middleware('auth:sanctum')->delete('/user',[UserController::class,'destroyUser']);
 
 
 // タスク管理のルート
