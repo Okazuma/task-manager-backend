@@ -28,6 +28,7 @@ class TaskRequest extends FormRequest
             'detail' =>'required|string|max:255',
             'deadline' => 'required|date',
             'user_id' => 'required|exists:users,id',
+            'category_id' => 'required',
         ];
     }
 
@@ -49,6 +50,8 @@ class TaskRequest extends FormRequest
 
             'user_id.required' => 'ユーザー認証が必要です',
             'user_id.exists' => 'ユーザーIDが存在しません',
+
+            'category_id' => 'カテゴリーを選択してください',
         ];
     }
 }

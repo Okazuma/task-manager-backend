@@ -32,19 +32,22 @@ class TaskController extends Controller
         $validated = $request->validated();
 
         $task = Task::create([
-            'name' => $request->name,
-            'detail' => $request->detail,
-            'deadline' => $request->deadline,
+            'name' => $validated['name'],
+            'detail' => $validated['detail'],
+            'deadline' => $validated['deadline'],
             'user_id' => $user->id,
+            'category_id' => $validated['category_id'],
         ]);
 
         return response()->json([
             'message' => ' Task created successfully',
             'task' => [
+                'id' => $task->id,
                 'name' => $task->name,
                 'detail' => $task->detail,
                 'deadline' => $task->deadline,
                 'user_id' => $task->user_id,
+                'category_id' => $task->category_id,
             ],
         ],201);
     }
@@ -66,6 +69,7 @@ class TaskController extends Controller
                 "detail" => $task->detail,
                 "deadline" => $task->deadline,
                 "user_id" => $user->id,
+                "category_id" => $task->category_id,
             ]
         ],200);
     }
