@@ -26,7 +26,7 @@ class AuthController extends Controller
                 'id' => $user->id,
                 'name' => $user->name,
                 'email' => $user->email,
-        ])->withCookie(cookie('token',$token,60,null,null,true,true));
+        ])->withCookie(cookie('token',$token,120,null,null,env('COOKIE_SECURE', false),true));
     }
 
 

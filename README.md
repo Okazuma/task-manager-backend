@@ -1,18 +1,18 @@
 # アプリケーション名
-    Task-manager バックエンド (TodoアプリのバックエンドAPI)
+    Task-Manager バックエンド (シンプル設計のTodoアプリ)
 <img width="650" src="https://github.com/user-attachments/assets/53445c5a-4ed5-415c-9bd0-a295ac0adbb5">
 
 
 
 
 ## 概要説明
-- Task-managerアプリのフロントエンドにAPIを提供する
+- Task-ManagerアプリのフロントエンドにAPIを提供する
 
 
 
 
 ## 作成目的
-- Task-manager(フロントエンド)と連携し、ユーザー情報・Todoリストを管理するため.
+- Task-Manager(フロントエンド)と連携し、ユーザー情報・タスクを管理するため.
 
 - フロントエンドからのリクエストを受け取り、データベース（MySQL）とのやり取りを行う。
 
@@ -20,10 +20,12 @@
 
 
 ## バックエンドAPIの役割
-- Task-manager のバックエンド API として、データ管理を担う
+- Task-Manager フロントエンドのバックエンド API として、データ管理を担う
 - ユーザー認証（Laravel Fortify を使用）
+- フロントエンドからのリクエストへのレスポンス
 - Todoデータの管理（作成・取得・更新・削除）
 - データベース（MySQL）との連携（Eloquent ORM を利用）
+- sanctum middlewareでのルートの制御
 
 
 
@@ -44,6 +46,9 @@
 - ユーザーのログアウト（`POST /api/logout`）
 - ユーザー情報の取得（`GET /api/user`）
 - ユーザー情報の更新（`PUT /api/user`）
+- ユーザー情報の削除（`DELETE /api/user`）
+
+
 
 #### 投稿管理
 - Todoの取得（`GET /api/tasks`）
@@ -52,19 +57,18 @@
 - Todoの削除（`DELETE /api/tasks/{taskId}`）
 
 #### その他
-- ユーザー別の各データ取得
 - フォームリクエストによるバリデーション
+- Http Only Cookieの使用
 
 
 
 
 ## 詳細内容
 - テスト用ユーザーはSeedで追加可能。
-  ユーザー名:test1  email: test1@example.com    password: 11111111
+    ユーザー名:test / email: test@example.com / password: password
+    Seedで作成されたユーザーに対してテスト用の投稿が追加される。
 
-- Seedで作成されたユーザーに対してテスト用の投稿が追加される。
-
-- Todoの作成・取得・更新・削除
+- タスクの作成・取得・更新・削除
     個別のTodo管理画面は認証済みのユーザーのみアクセス可能
     Todoの追加・取得・更新・削除にはユーザー認証が必要
 
@@ -98,9 +102,9 @@
 
 
 ## dockerビルド
-    1 git clone リンク  https://github.com/Okazuma/share-app-backend.git
+    1 git clone リンク  `https://github.com/Okazuma/task-manager-backend.git`
 
-    2 docker compose up -d --build
+    2 `docker compose up -d --build`
 
     ※ MysqlはOSによって起動しない場合があるので、それぞれのPCに合わせてdocker-compose.ymlを編集してください。
 
@@ -110,7 +114,7 @@
 ## Laravelの環境構築
 - phpコンテナにログイン        $docker compose exec php bash
 
-- パッケージのインストール      $composer-install
+- パッケージのインストール      $composer install
 
 - .envファイルの作成          cp .env.example .env
 
@@ -124,5 +128,38 @@
 
 
 ## CORS 設定について
-- フロントエンド（例: `http://localhost:8081`）から API にアクセスできるようにするため、'config/cors.php'で以下の設定を追加しています。
-'allowed_origins' => ['http://localhost:8081']
+- フロントエンド（例: `http://localhost:5173`）から API にアクセスできるようにするため、'config/cors.php'で以下の設定を追加しています。
+```php
+'allowed_origins' => ['http://localhost:5173'],
+'supports_credentials' => true
+```
+
+
+
+## 認証トークンのCookieについて
+- AuthController login にてログイン時にCookieにトークンを保存するよう設定済み
+    withCookie(cookie('token',$token,120,null,null,env('COOKIE_SECURE', false),true))
+        ・env('COOKIE_SECURE', false)
+            Cookie Secure = false（.env に COOKIE_SECURE の設定がない場合は false になる）
+        ・Http Only = true
+            120分間トークンをHttp Only Cookieで保持
+
+
+
+
+#### .envの設定
+- 開発環境
+```env
+SESSION_SECURE_COOKIE = false
+SESSION_DOMAIN = localhost
+SANCTUM_STATEFUL_DOMAINS = localhost:5173
+COOKIE_SECURE=false
+```
+
+- 本番環境
+```env
+SESSION_SECURE_COOKIE = true
+SESSION_DOMAIN = example.com
+SANCTUM_STATEFUL_DOMAINS = example.com
+COOKIE_SECURE = true
+```
