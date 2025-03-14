@@ -1,6 +1,6 @@
 # アプリケーション名
     Task-Manager バックエンド (シンプル設計のTodoアプリ)
-<img width="650" src="https://github.com/user-attachments/assets/53445c5a-4ed5-415c-9bd0-a295ac0adbb5">
+<img width="650" src="https://github.com/user-attachments/assets/5d76e794-35e1-46e4-875a-b1af501044ff">
 
 
 
