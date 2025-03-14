@@ -28,7 +28,6 @@ class TaskSeeder extends Seeder
             'name' => 'Work sample 1',
             'detail' => 'Sample task for work 1',
             'deadline' => now()->format('Y-m-d'),
-            'status' => 'pending'
         ]);
         Task::create([
             'user_id' => $user->id,
@@ -36,7 +35,6 @@ class TaskSeeder extends Seeder
             'name' => 'Personal sample 1',
             'detail' => 'Sample personal task 1',
             'deadline' => now()->format('Y-m-d'),
-            'status' => 'completed'
         ]);
 
         Task::create([
@@ -45,7 +43,6 @@ class TaskSeeder extends Seeder
             'name' => 'Work sample 2',
             'detail' => 'Sample task for work 2',
             'deadline' => now()->addDays(1)->format('Y-m-d'),
-            'status' => 'pending'
         ]);
         Task::create([
             'user_id' => $user->id,
@@ -53,7 +50,6 @@ class TaskSeeder extends Seeder
             'name' => 'Personal sample 2',
             'detail' => 'Sample personal task 2',
             'deadline' => now()->addDays(1)->format('Y-m-d'),
-            'status' => 'completed'
         ]);
     }
 }

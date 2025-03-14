@@ -90,13 +90,13 @@
 
 
 ## テーブル設計
-<img width="650" src="https://github.com/user-attachments/assets/f017f6b7-3575-4df0-86e6-51dfe383c4b9">
+<img width="650" src="https://github.com/user-attachments/assets/8c7db5c2-97bc-4f3e-89f1-828c9de4fe8c" />
 
 
 
 
 ## ER図
-<img width="650" src="https://github.com/user-attachments/assets/e313a860-bb03-42e9-81db-e0024f5cd081">
+<img width="650" src="https://github.com/user-attachments/assets/babac219-5122-40d4-9e42-a7baea746d8e">
 
 
 
